@@ -1,0 +1,25 @@
+{
+  "name": "school-zilla-be",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "async": "^3.2.4",
+    "aws-sdk": "^2.1348.0",
+    "bcrypt": "^5.1.0",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "express": "^4.16.4",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.1",
+    "morgan": "~1.9.1",
+    "uuid": "^9.0.0"
+  }
+}
