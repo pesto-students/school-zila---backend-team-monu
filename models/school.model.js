@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     school_moto: { type: String, required: false },
     school_imgs: { type: String, required: false },
     school_location: { type: String, required: false },
+    school_mobile: { type: String, required: false },
     school_email: { type: String, required: true },
     school_password: { type: String, required: true },
     school_uuid : { type: String, required: true },

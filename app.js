@@ -8,7 +8,9 @@ const {
     signup,
     getSchoolDetails,
     getAllSchools,
+    getAllTeacher,
     editTeacher,
+    getAllStudent,
     editStudent 
 } = require("./controllers/user.controller");
 const {addNewClass} = require("./controllers/class.controller");
@@ -21,8 +23,13 @@ app.use(cors({
 app.use(express.json());
 app.use("/get-all-schools",getAllSchools);
 app.use("/get-school-details",getSchoolDetails);
+
+app.use("/get-all-teacher",protect,getAllTeacher);
 app.use("/edit-teacher",protect,editTeacher);
+
+app.use("/get-all-student",protect,getAllStudent);
 app.use("/edit-student",protect,editStudent);
+
 app.use("/login", login);
 app.use("/signup", signup);
 

@@ -60,7 +60,7 @@ const login = async (req, res) => {
         error: true,
       });
     }
-
+    
     try {
       const match = await user.checkPassword(req.body?.password);
       if (!match) {
@@ -71,9 +71,11 @@ const login = async (req, res) => {
         });
       }
       const token = generateToken(user);
+      let {school_uuid} = user;
       return res.status(200).send({
         status: true,
         token: token,
+        school_uuid:school_uuid,
         message: `${roleParam} login successfull`,
         error: false,
       });
@@ -92,7 +94,63 @@ const login = async (req, res) => {
     });
   }
 };
+const getAllTeacher = async(req,res) => {
+  try
+  {
+    let {_id} = req.body?.user;
+    let teacher = await Teacher.find({school_id:_id});
+    if(!teacher)
+    {
+      return res.status(404).send({
+        status: false,
+        message: `No data found`,
+        error: true,
+      });
+    }
+    return res.status(200).send({
+      status: true,
+      data: teacher,
+      error: false,
+    });
+  }
+  catch(err)
+  {
+    return res.status(200).send({
+      status: true,
+      message: err,
+      error: false,
+    });
+  }
+}
 
+const getAllStudent = async(req,res) => {
+  try
+  {
+    let {_id} = req.body?.user;
+    let student = await Student.find({school_id:_id});
+    if(!student)
+    {
+      return res.status(404).send({
+        status: false,
+        message: `No data found`,
+        error: true,
+      });
+    }
+    return res.status(200).send({
+      status: true,
+      data: student,
+      error: false,
+    });
+  }
+  catch(err)
+  {
+    return res.status(200).send({
+      status: true,
+      message: err,
+      error: false,
+    });
+  }
+}
 const editTeacher = async(req,res) => {
   try
   {
@@ -302,4 +360,4 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { login, signup, getSchoolDetails, getAllSchools, editTeacher, editStudent };
+module.exports = { login, signup, getSchoolDetails, getAllSchools,getAllTeacher, editTeacher,getAllStudent, editStudent };
