@@ -39,7 +39,7 @@ const createMainBucket = (callback) => {
 const createItemObject = (callback) => {
   const params = { 
         Bucket: BUCKET_NAME, 
-        Key: 'courses/abc.png' || `courses/${Math.floor(Math.random()*999999+1)}_${imageName|| 'abc'}`,
+        Key: `courses/${Math.floor(Math.random()*999999+1)}_${imageName|| 'abc'}`,
         ACL: 'public-read',
         Body:image
     };
@@ -48,15 +48,21 @@ const createItemObject = (callback) => {
 	    	console.log("Error uploading image: ", err);
 	    	callback(err, null)
 	    } else {
-	    	console.log("Successfully uploaded image on S3", data);
+	    	console.log("Successfully uploaded image on S3", {
+						data:{
+							status:true,
+							filePath:params?.Key,
+							error:false,
+						}
+			});
 	    	callback(null, data)
 	    }
 	})  
 }
 
 const fileUpload = async(req, res, next) => {
+	console.log("=====================file upload start");
     var tmp_path = req.files.file.path;
-	var tmp_path = req.files.file.path;
 	image = fs.createReadStream(tmp_path);
     imageName = req.files.file.name;
     async.series([
@@ -72,7 +78,7 @@ const fileUpload = async(req, res, next) => {
 	try
 	{
 		//  // download the file via aws s3 here
-		 var fileKey = "courses/abc.png";
+		 var fileKey = req.body.filePath;
  
 		//  console.log('Trying to download file', fileKey);
 		//  var options = {

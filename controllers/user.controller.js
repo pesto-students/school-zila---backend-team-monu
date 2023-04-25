@@ -136,6 +136,21 @@ const getAllStudent = async(req,res) => {
         error: true,
       });
     }
+    student = student?.map(item=>{
+      delete item?.student_password;
+      return {
+        student_id:item?.student_uin,
+        student_name: item?.student_name,
+        student_email: item?.student_email,
+        student_dob: item?.student_dob,
+        student_mobile: item?.student_mobile,
+        student_address: item?.student_address,
+        parent_name: item?.parent_name,
+        parent_relationship: item?.parent_relationship,
+        parent_email: item?.parent_email,
+        parent_mobile: item?.parent_mobile,
+      };
+    })
     return res.status(200).send({
       status: true,
       data: student,
@@ -334,6 +349,7 @@ const signup = async (req, res) => {
       let { school_uuid } = req.body;
       let school_id = await School.findOne({school_uuid:school_uuid});
       req.body['school_id'] = school_id;
+      req.body['student_uin'] = (new Date()).getTime()+Math.floor(Math.random()*10);
       user = await Student.create(req.body);
     }
     else 
