@@ -89,7 +89,8 @@ const login = async (req, res) => {
 const getAllTeacher = async (req, res) => {
   try {
     let { _id } = req.body?.user;
-    let teacher = await Teacher.find({ school_id: _id });
+    console.log(req.body.user);
+    let teacher = await Teacher.find({ schoolId: _id });
     if (!teacher) {
       return res.status(404).send({
         status: false,
@@ -233,7 +234,8 @@ const addTeacher = async (req, res) => {
     if (roleParam === ROLES.TEACHER) {
       let { schoolUuid } = req.body;
       let school_id = await School.findOne({ school_uuid: schoolUuid });
-      req.body["school_id"] = school_id;
+      console.log(school_id);
+      req.body["schoolId"] = school_id;
       user = await Teacher.create(req.body);
     } else {
       return res.status(403).send({

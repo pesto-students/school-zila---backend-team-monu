@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema(
     teacherPassword: { type: String, required: true },
     classIds: { type: String, required: false },
     attendenceId: { type: String, required: false },
+    teacherSpecilization: { type: String, required: true },
+    teacherPhone: { type: Number, required: true },
   },
   {
     versionKey: false,
