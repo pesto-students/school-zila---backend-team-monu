@@ -33,10 +33,10 @@ app.use(express.json());
 app.use("/get-all-schools", getAllSchools);
 app.use("/get-school-details", getSchoolDetails);
 
-app.use("/teacher", protect, getAllTeacher);
+app.use("/get-all-teacher", protect, getAllTeacher);
 app.use("/edit-teacher", protect, editTeacher);
 
-app.use("/student", protect, getAllStudent);
+app.use("/get-all-student", protect, getAllStudent);
 app.use("/edit-student", protect, editStudent);
 
 app.use("/delete-user", protect, deleteUser);
