@@ -32,11 +32,9 @@ app.use("/get-school-details", getSchoolDetails);
 
 app.use("/teacher", protect, getAllTeacher);
 app.use("/edit-teacher", protect, editTeacher);
-app.use("/addTeacher", protect, addTeacher);
 
 app.use("/student", protect, getAllStudent);
 app.use("/edit-student", protect, editStudent);
-app.use("/addStudent", protect, addStudent);
 
 app.use("/delete-user", protect, deleteUser);
 
