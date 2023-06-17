@@ -12,10 +12,12 @@ const {
   editTeacher,
   getAllStudent,
   editStudent,
-  addStudent,
-  addTeacher,
+  deleteUser,
 } = require("./controllers/user.controller");
-const { addNewClass } = require("./controllers/class.controller");
+const {
+  addNewClass,
+  getAllClassDetails,
+} = require("./controllers/class.controller");
 const { addNewCourse } = require("./controllers/course.controller");
 const protect = require("./middleware/protect");
 const { fileUpload, fileDownload } = require("./controllers/file.controller");
@@ -36,9 +38,12 @@ app.use("/student", protect, getAllStudent);
 app.use("/edit-student", protect, editStudent);
 app.use("/addStudent", protect, addStudent);
 
+app.use("/delete-user", protect, deleteUser);
+
 app.use("/login", login);
 app.use("/signup", signup);
 
+app.use("/get-all-class", protect, getAllClassDetails);
 app.use("/class/add", addNewClass);
 app.use("/course/add", addNewCourse);
 
