@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const multipart = require("connect-multiparty");
+const path = require("path");
 const app = express();
+
 const multipartMiddleware = multipart();
 const {
   login,
@@ -21,12 +23,15 @@ const {
 const { addNewCourse } = require("./controllers/course.controller");
 const protect = require("./middleware/protect");
 const { fileUpload, fileDownload } = require("./controllers/file.controller");
+
 app.use(
   cors({
     origin: "*",
   })
 );
+app.use(express.static(path.join(__dirname, "../build")));
 app.use(express.json());
+
 app.use("/get-all-schools", getAllSchools);
 app.use("/get-school-details", getSchoolDetails);
 
