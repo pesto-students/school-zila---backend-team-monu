@@ -13,12 +13,8 @@ const userSchema = new mongoose.Schema(
       ref:"school",
       required:true,
     },
-    student_id: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"student",
-      required:true,
-    }],
     class_name: {type: String, required:true},
+    abbreviation: {type: String, required:false},
   },
   {
     versionKey: false,

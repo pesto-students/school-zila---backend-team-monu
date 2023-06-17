@@ -107,6 +107,8 @@ const getAllTeacher = async(req,res) => {
         error: true,
       });
     }
+    delete teacher.teacher_password;
+    delete teacher._id;
     return res.status(200).send({
       status: true,
       data: teacher,
@@ -169,9 +171,7 @@ const getAllStudent = async(req,res) => {
 const editTeacher = async(req,res) => {
   try
   {
-    let id = req.body?.user?._id;
-    delete req.body?.user;
-    let teacher = await Teacher.findByIdAndUpdate(id,req.body);
+    let teacher = await Teacher.findOneAndUpdate({teacher_email:req?.body?.teacher_email},req.body);
     if(!teacher)
     {
       return res.status(404).send({
@@ -180,6 +180,7 @@ const editTeacher = async(req,res) => {
         error: true,
       }); 
     }
+    delete teacher?.teacher_password;
     return res.status(200).send({
       status: true,
       message: teacher,
@@ -200,9 +201,7 @@ const editTeacher = async(req,res) => {
 const editStudent = async(req,res) => {
   try
   {
-    let id = req.body?.user?._id;
-    delete req.body?.user;
-    let student = await Student.findByIdAndUpdate(id,req.body);
+    let student = await Student.findOneAndUpdate({student_email:req?.body?.student_email},req.body);
     if(!student)
     {
       return res.status(404).send({
@@ -211,6 +210,7 @@ const editStudent = async(req,res) => {
         error: true,
       }); 
     }
+    delete student?.student_password;
     return res.status(200).send({
       status: true,
       message: student,
@@ -220,13 +220,70 @@ const editStudent = async(req,res) => {
   }
   catch(error)
   {
-    return res.status(404).send({
+    return res.status(500).send({
       status: false,
       message: error,
       error: true,
     });
   }
 }
+
+const deleteUser = async(req,res) => {
+  try
+  {
+    let role = req?.body?.role;
+    if(role !== "STUDENT" && role !== "TEACHER")
+    {
+      return res.status(500).send({
+        status: false,
+        message: "Invalid role",
+        error: true,
+      });
+    }
+    if(role === "STUDENT")
+    {
+      let student = await Student.findOneAndDelete({student_email:req.body.student_email});
+      if(!student)
+      {
+        return res.status(403).send({
+          status: false,
+          message: "student can't be deleted",
+          error: true,
+        });
+      }
+      return res.status(200).send({
+        status: false,
+        message: "Student deleted successfully",
+        error: true,
+      });
+    }
+    else if(role === "TEACHER")
+    {
+      let teacher = await Teacher.findOneAndDelete({teacher_email:req.body?.teacher_email});
+      if(!teacher)
+      {
+        return res.status(403).send({
+          status: false,
+          message: "teacher can't be deleted",
+          error: true,
+        });
+      }
+      return res.status(200).send({
+        status: false,
+        message: "teacher deleted successfully",
+        error: true,
+      });
+    }
+  }
+  catch(error)
+  {
+    return res.status(500).send({
+      status: false,
+      message: error,
+      error: true,
+    });
+  }
+} 
 
 const getSchoolDetails = async(req,res) => {
   let {uuid} = req.body;
@@ -376,4 +433,14 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { login, signup, getSchoolDetails, getAllSchools,getAllTeacher, editTeacher,getAllStudent, editStudent };
+module.exports = { 
+  login, 
+  signup, 
+  getSchoolDetails, 
+  getAllSchools,
+  getAllTeacher, 
+  editTeacher,
+  getAllStudent, 
+  editStudent,
+  deleteUser, 
+};
